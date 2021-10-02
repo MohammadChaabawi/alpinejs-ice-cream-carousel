@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <script defer src="https://unpkg.com/alpinejs@3.2.1/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@1.2.0/dist/tailwind.min.css">
+</head>
+
+<body>
+    <div class="bg-blue-200 h-screen flex justify-center pt-64">
+        <div class="w-full max-w-4xl">
+            <div class="mx-auto relative w-full" x-data="carouselData([
+                {id:1, image: 'https://i.pinimg.com/originals/d8/60/07/d86007f6484d5a928badc047db4245db.jpg'},
+                {id:2, image: 'https://www.diamondsicecream.com/image/banner1.jpg'},
+                {id:3, image: 'http://1.bp.blogspot.com/-cpQOvR1nrgA/ToPJUTHVLCI/AAAAAAAACvA/o08DpntkXRo/s1600/Ice+Cream.png'},
+                {id:4, image: 'https://apex-md.com/wp-content/uploads/2018/04/ice-cream.jpg'}
+            ])">
+                <template x-for="slide in slides" :key="slide.id">
+                    <div x-show="activeSlide === slide.id"
+                        class="p-48 font-bold text-5xl flex items-center bg-cover text-white rounded"
+                        :style="`background-image: url(${slide.image})`">
+                    </div>
+                </template>
+                <div class="absolute inset-0 flex">
+                    <div class="flex items-center justify-start w-1/2">
+                        <button @click="goToPrevious()"
+                            class="bg-white text-gray-500 hover:text-indigo-500 font-bold hover:shadow-lg rounded-full w-12 h-12 -ml-6 focus:outline-none">&#8592;</button>
+                    </div>
+                    <div class="flex items-center justify-end w-1/2">
+                        <button @click="goToNext()"
+                            class="bg-white text-gray-500 hover:text-indigo-500 font-bold hover:shadow-lg rounded-full w-12 h-12 -mr-6 focus:outline-none">&#8594;</button>
+                    </div>
+                </div>
+                <div class="absolute w-full flex items-center justify-center px-4 bottom-2">
+                    <template x-for="slide in slides" :key="slide.id">
+                        <button @click="activeSlide = slide.id"
+                            :class="{ 'bg-indigo-800' : activeSlide === slide.id, 'bg-white' : activeSlide !== slide.id }"
+                            class="w-4 h-2 mt-4 mx-2 mb-0 rounded-full overflow-hidden transition-colors duration-200 ease-out hover:bg-indigo-600 hover:shadow-lg focus:outline-none"></button>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function carouselData(slides) {
+        return {
+            slides,
+            activeSlide: 1,
+            goToPrevious() {
+                this.activeSlide =
+                    this.activeSlide === 1 ? this.slides.length : this.activeSlide - 1
+            },
+            goToNext() {
+                this.activeSlide =
+                    this.activeSlide === this.slides.length ? 1 : this.activeSlide + 1
+            }
+        }
+    }
+</script>
+
+</html>
